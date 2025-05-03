@@ -1,7 +1,7 @@
 # Image Captioning: CNN + LSTM Architecture Explained
 ---
 
-## 📌 Overview
+## Overview
 
 Image captioning involves generating a natural language description for a given image. The typical architecture is:
 
@@ -9,9 +9,9 @@ Image captioning involves generating a natural language description for a given 
 
 ---
 
-## 📦 Architecture Components
+## Architecture Components
 
-### 1. 🧠 CNN Encoder
+### 1. CNN Encoder
 
 * The encoder is usually a **pretrained CNN** like ResNet.
 * It takes an image and outputs a **feature vector**, which is a numerical summary of the image.
@@ -23,7 +23,7 @@ image → ResNet → feature vector
 ```
 ---
 
-### 2. ✏️ Vocabulary
+### 2. Vocabulary class
 
 * During preprocessing, all the words in the training captions are collected.
 * A unique index is assigned to each word.
@@ -38,7 +38,7 @@ The word `"tree"` might get index `4`.
 
 ---
 
-### 3. 📝 LSTM Decoder
+### 3. LSTM Decoder
 
 * The LSTM is trained to **generate words one at a time**.
 * At each time step, it predicts the **next word** given the current word and the context (including the image).
@@ -46,13 +46,13 @@ The word `"tree"` might get index `4`.
 
 ---
 
-## 🫮 Mapping Features to Word Indices
+## Mapping Features to Word Indices
 
 Let’s answer the main question:
 
 > How does the model convert image features into a word like `"tree"` (index 4)?
 
-### 🔄 Process:
+### Process:
 
 1. **Image** → CNN → Feature vector
    Example: a 2048-dim vector.
@@ -78,7 +78,7 @@ Let’s answer the main question:
 
 ---
 
-### 🔀 Training the Model
+### Training the Model
 
 During training:
 
