@@ -49,7 +49,7 @@ function CaptionGenerate() {
         {previewUrl && <img src={previewUrl} alt="preview" className='preview-image'/>}
         {image && (<button className='button' onClick={generateCaption}>Generate Caption</button>)}
         {caption && (
-          <p><strong>Caption:</strong>{caption}</p>
+          <p><strong>Caption:</strong>{ caption}</p>
         )}
     </div>
   )

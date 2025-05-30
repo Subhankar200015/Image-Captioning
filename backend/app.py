@@ -2,16 +2,18 @@ import torch
 from PIL import Image
 import torchvision.transforms as transforms
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 # Import your model components
 from model.encoder_decoder import EncoderCNN, DecoderRNN
 from model.vocabulary import Vocabulary
 
 app = Flask(__name__)
+CORS(app)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 # Load checkpoint
-checkpoint = torch.load('caption_model.pth', map_location=device)
+checkpoint = torch.load('model/caption_model.pth', map_location=device)
 
 vocab_builder = checkpoint['vocab']
 vocab = vocab_builder.itos
@@ -32,7 +34,7 @@ transform = transforms.Compose([
                          std=[0.229, 0.224, 0.225]),])
 
 
-def generate_caption(encoder, decoder, image_path, idx2word, transform, device, max_len=20):
+def generate_caption(encoder, decoder, image, idx2word, transform, device, max_len=20):
     
     image = transform(image).unsqueeze(0).to(device)
     
@@ -62,7 +64,7 @@ def generate_caption(encoder, decoder, image_path, idx2word, transform, device, 
     return ' '.join(caption)
 
 
-@app.route('/generate_caption', methods=['POST'])
+@app.route('/caption', methods=['POST'])
 def handle_generate_caption():
     if 'image' not in request.files:
         return jsonify({'error': 'No image uploaded'}), 400
@@ -71,8 +73,8 @@ def handle_generate_caption():
 
     try:
         image = Image.open(image_file).convert('RGB')
-        caption = generate_caption(image, encoder, decoder, vocab, transform, device)
-        return jsonify({'caption': caption})
+        caption = generate_caption(encoder, decoder, image, vocab, transform, device)
+        return jsonify({'caption': caption}), 200
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
