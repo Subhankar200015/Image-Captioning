@@ -22,6 +22,21 @@ function CaptionGenerate() {
 
     const formData = new FormData();
     formData.append('image', image)
+
+    try {
+      const response = await fetch('http://localhost:5000/caption',
+        {
+          method: 'POST',
+          body: formData
+        });
+
+      const data = await response.json();
+      setCaption(data.caption);
+    }
+
+    catch(error) {
+      console.error('Error generating caption: ', error);
+    }
   };
 
   return (
